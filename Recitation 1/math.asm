@@ -6,8 +6,7 @@
     # An int is essentially reprsented as a word in MIPS
     num1: .word 12
     num2: .word 3 # A word takes up 4 bytes in memory, which is 32 bits
-
-    num_arr: .word 1, 2, 3, 4, 5
+    num3: .word -64
 
     newline: .asciiz "\n"
 
@@ -20,7 +19,7 @@
 
 .text
     ######################################################
-    # ADDING
+    # ADDITION
     ######################################################
     lw $t0, num1 # Load in 12 into register $t0
     lw $t1, num2 # Load 3 into register $t1
@@ -90,13 +89,54 @@
     # This is also a much shorter way to multiply a number
     sll $a0, $t0, 1 # Is essentially multiplying by 2 if we hsift left by 1. If shifting left by n, it is multiplying by 2^n
     li $v0, 1
-    syscall # This will output 2
+    syscall # This will output 6
 
     nl()
 
     sll $a0, $t0, 2
     li $v0, 1
-    syscall # This will output 3
+    syscall # This will output 12
+
+    nl()
+
+    ######################################################
+    # SHIFT RIGHT LOGICAL
+    ######################################################
+
+    # Shifting the bits to the right is equivalent to dividing the value by 2^n
+    # Note that the output is NOT sign extended unlike in sra
+
+    # Dividing by 2 using srl
+    srl $a0, $t1, 1 # 12 / 2 = 6
+    li $v0, 1
+    syscall 
+
+    nl()
+
+    srl $a0, $t1, 2 # 12 / 4 = 3
+    li $v0, 1
+    syscall
+
+    nl()
+
+    ######################################################
+    # SHIFT RIGHT ARITHMETIC
+    ######################################################
+
+    # This is similar in functionalty to shift right logical, except that the bits are extended
+    # Since the MSB is the sign bit, that would get extended
+
+    lw $t2, num3 # Load in -64
+    sra $a0, $t2, 1 # -64 / 2 = -32
+    li $v0, 1
+    syscall
+
+    nl()
+
+    # Notice that this does not work for srl
+    srl $a0, $t2, 1
+    li $v0, 1
+    syscall # Notice that this gives us a really large positive value since we are no longer treating it as a negative number, but as a positive. All the f's in the hex are present in the magnitude, which results in a much larger size
 
     li $v0, 10
     syscall
