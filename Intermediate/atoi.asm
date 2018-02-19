@@ -1,4 +1,6 @@
-
+##############################
+# Convert a given string that represents a number to an actual integer
+##############################
 .data
     string: .asciiz "123"
 
@@ -32,5 +34,5 @@
 # Convert ASCII chars to integers
 atoi_helper:
     li $t0, '0'
-    sub $v0, $a0, $t0
+    sub $v0, $a0, $t0 # Subtract the '0' ASCII value as an offset
     jr $ra
