@@ -5,8 +5,8 @@
     num_arr: .word 32, 53, 7, 43, 5 # A number array can be created by delimiting numbers using a comma
     num_len: .word 5
 
-    min_num: .word 0xf0000000 # INT_MIN
-    max_num: .word 0x0fffffff # INT_MAX
+    min_num: .word 0x80000000 # INT_MIN
+    max_num: .word 0x7fffffff # INT_MAX
 
     max_label: .asciiz "Max: "
     min_label: .asciiz "Min: "
